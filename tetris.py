@@ -154,10 +154,11 @@ pygame.display.set_caption("Tetris")
 # Loop until the user clicks the close button.
 done = False
 clock = pygame.time.Clock()
-fps = 25
+fps = 60
 game = Tetris(20, 10)
 counter = 0
-
+oldFigure = None
+tempFigure = None
 pressing_down = False
 
 while not done:
@@ -187,6 +188,14 @@ while not done:
                 game.go_side(1)
             if event.key == pygame.K_UP:
                 game.go_space()
+            if event.key == pygame.K_SPACE:
+                if oldFigure is None:
+                    oldFigure = game.figure
+                    game.new_figure()
+                else:
+                    tempFigure = game.figure
+                    game.figure = oldFigure
+                    oldFigure = tempFigure
             if event.key == pygame.K_ESCAPE:
                 game.__init__(20, 10)
 
