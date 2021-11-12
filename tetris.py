@@ -195,10 +195,14 @@ while not done:
                 if oldFigure is None:
                     oldFigure = game.figure
                     game.new_figure()
+                    oldFigure.x = 3
+                    oldFigure.y = 0
                 else:
                     tempFigure = game.figure
                     game.figure = oldFigure
                     oldFigure = tempFigure
+                    oldFigure.x = 3
+                    oldFigure.y = 0
             if event.key == pygame.K_ESCAPE:
                 game.__init__(20, 10)
 
