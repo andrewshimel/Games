@@ -160,7 +160,8 @@ counter = 0
 oldFigure = None
 tempFigure = None
 pressing_down = False
-
+pygame.mixer.music.load('RamRanch.wav')
+pygame.mixer.music.play(-1)
 while not done:
     if game.figure is None:
         game.new_figure()
