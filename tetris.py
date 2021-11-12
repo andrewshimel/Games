@@ -39,6 +39,9 @@ class Figure:
     def rotate(self):
         self.rotation = (self.rotation + 1) % len(self.figures[self.type])
 
+    def rotate_left(self):
+        self.rotation = (self.rotation - 1) % len(self.figures[self.type])
+
 
 class Tetris:
     level = 2
@@ -127,6 +130,13 @@ class Tetris:
         if self.intersects():
             self.figure.rotation = old_rotation
 
+    def rotate_left(self):
+        old_rotation = self.figure.rotation
+        self.figure.rotate_left()
+        if self.intersects():
+            self.figure.rotation = old_rotation
+
+
 
 # Initialize the game engine
 pygame.init()
@@ -165,6 +175,8 @@ while not done:
         if event.type == pygame.QUIT:
             done = True
         if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_z:
+                game.rotate_left()
             if event.key == pygame.K_x:
                 game.rotate()
             if event.key == pygame.K_DOWN:
