@@ -204,6 +204,7 @@ while not done:
                     oldFigure.x = 3
                     oldFigure.y = 0
             if event.key == pygame.K_ESCAPE:
+                oldFigure = None
                 game.__init__(20, 10)
 
     if event.type == pygame.KEYUP:
@@ -228,6 +229,17 @@ while not done:
                                      [game.x + game.zoom * (j + game.figure.x) + 1,
                                       game.y + game.zoom * (i + game.figure.y) + 1,
                                       game.zoom - 2, game.zoom - 2])
+
+    if oldFigure is not None:
+        for i in range(4):
+            for j in range(4):
+                p = i * 4 + j
+                if p in oldFigure.image():
+                    pygame.draw.rect(screen, colors[oldFigure.color],
+                                     [0 + game.zoom * (j) + 1,
+                                      20 + game.zoom * (i) + 1,
+                                      game.zoom - 2, game.zoom - 2])
+
 
     font = pygame.font.SysFont('Calibri', 25, True, False)
     font1 = pygame.font.SysFont('Calibri', 65, True, False)
