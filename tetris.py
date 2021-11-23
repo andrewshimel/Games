@@ -27,10 +27,10 @@ class Figure:
         [[1, 2, 3, 5, 7, 9, 10, 11]],
     ]
 
-    def __init__(self, x, y):
+    def __init__(self, x, y, num):
         self.x = x
         self.y = y
-        self.num = random.randint(0, len(self.figures) - 1)
+        self.num = num
         self.type = self.num
         self.color = self.num + 1
         self.rotation = 0
@@ -56,6 +56,7 @@ class Tetris:
     y = 60
     zoom = 20
     figure = None
+    next_piece = Figure(3, 0, random.randint(0, 6))
 
     def __init__(self, height, width):
         self.height = height
@@ -70,7 +71,8 @@ class Tetris:
             self.field.append(new_line)
 
     def new_figure(self):
-        self.figure = Figure(3, 0)
+        self.figure = self.next_piece
+        self.next_piece = Figure(3, 0, random.randint(0, 6))
 
     def intersects(self):
         intersection = False
@@ -162,8 +164,9 @@ counter = 0
 oldFigure = None
 tempFigure = None
 pressing_down = False
-pygame.mixer.music.load('music.wav')
-pygame.mixer.music.play(-1)
+
+#pygame.mixer.music.load('music.wav')
+#pygame.mixer.music.play(-1)
 while not done:
     if game.figure is None:
         game.new_figure()
@@ -230,6 +233,16 @@ while not done:
                                       game.y + game.zoom * (i + game.figure.y) + 1,
                                       game.zoom - 2, game.zoom - 2])
 
+    if game.next_piece is not None:
+        for i in range(4):
+            for j in range(4):
+                p = i * 4 + j
+                if p in game.next_piece.image():
+                    pygame.draw.rect(screen, colors[game.next_piece.color],
+                                     [320 + game.zoom * (j) + 1,
+                                      40 + game.zoom * (i) + 1,
+                                      game.zoom - 2, game.zoom - 2])
+
     if oldFigure is not None:
         for i in range(4):
             for j in range(4):
@@ -237,7 +250,7 @@ while not done:
                 if p in oldFigure.image():
                     pygame.draw.rect(screen, colors[oldFigure.color],
                                      [0 + game.zoom * (j) + 1,
-                                      20 + game.zoom * (i) + 1,
+                                      40 + game.zoom * (i) + 1,
                                       game.zoom - 2, game.zoom - 2])
 
 
